@@ -76,6 +76,7 @@
     <Compile Include="Construction.cs" />
     <Compile Include="Existing_Directories.cs" />
     <Compile Include="Existing_Files.cs" />
+    <Compile Include="Integration\Umbraco_Getting_FolderNumbers.cs" />
     <Compile Include="Non_Existing_Directories.cs" />
     <Compile Include="Paths_To_Directories.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
