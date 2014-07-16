@@ -80,6 +80,7 @@
     <Compile Include="Non_Existing_Directories.cs" />
     <Compile Include="Paths_To_Directories.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Relative_Paths.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

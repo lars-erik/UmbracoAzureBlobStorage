@@ -18,16 +18,38 @@ namespace idseefeld.de.UmbracoAzure.Tests
         }
 
         [Test]
-        public void Can_Be_Enumerated()
+        public void Are_Enumerated_As_Relative_Paths_To_Root()
         {
-            var expectedDirectoryNames = new List<string>{ "1000", "1001" };
-            var expectedUrls = expectedDirectoryNames.Select(GetUrl);
+            var expectedDirectories = new List<string>{ "1000", "1001" };
 
-            expectedDirectoryNames.ForEach(name => CreateDirectory(name));
+            expectedDirectories.ForEach(name => CreateDirectory(name));
 
             var directories = Sut.GetDirectories("").ToList();
 
-            Assert.That(expectedUrls.SequenceEqual(directories), String.Join(",", directories));
+            Assert.That(
+                directories, 
+                Is.EquivalentTo(expectedDirectories),
+                String.Join(",", directories)
+                );
+        }
+
+        [Test]
+        [TestCase("", Description = "Without trailing slash")]
+        [TestCase("/", Description = "With trailing slash")]
+        public void At_Second_Level_Are_Enumerated_As_Relative_Paths_To_Root(string suffix)
+        {
+            var createDirectories = new List<string> {"1000/thumbs", "1000/temp", "1001/ignored"};
+            var expectedDirectories = new List<string>{ "1000/thumbs", "1000/temp" };
+
+            createDirectories.ForEach(name => CreateDirectory(name));
+
+            var directories = Sut.GetDirectories("1000" + suffix).ToList();
+
+            Assert.That(
+                directories, 
+                Is.EquivalentTo(expectedDirectories),
+                String.Join(",", directories)
+                );
         }
 
         [Test]
