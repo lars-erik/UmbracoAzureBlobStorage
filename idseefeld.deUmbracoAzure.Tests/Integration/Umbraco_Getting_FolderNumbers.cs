@@ -11,13 +11,31 @@ namespace idseefeld.de.UmbracoAzure.Tests.Integration
     public class Umbraco_Getting_FolderNumbers : AzureBlobFileSystemTestBase
     {
         [Test]
-        public void Starts_At_1000_On_Each_Recycle()
+        public void Returns_Biggest_Number_Of_Root_Directories()
         {
-            for(var i = 1000; i<1002; i++)
-                Sut.AddFile(i + "/test.dat", CreateTestStream());
+            Sut.AddFile("12345/test.dat", CreateTestStream());
 
             var number = MediaSubfolderCounter_Adaption();
+            Assert.AreEqual(12345, number);
+        }
+
+        [Test]
+        public void Starts_At_1000_When_No_Numeric_Folder_Names()
+        {
+            Sut.AddFile("abc/test.dat", CreateTestStream());
+            var number = MediaSubfolderCounter_Adaption();
             Assert.AreEqual(1000, number);
+        }
+
+        [Test]
+        public void Ignores_Non_Numeric_Folders()
+        {
+            Sut.AddFile("abc/test.dat", CreateTestStream());
+            Sut.AddFile("1234/test.dat", CreateTestStream());
+            Sut.AddFile("1235/test.dat", CreateTestStream());
+            Sut.AddFile("cdef/test.dat", CreateTestStream());
+            var number = MediaSubfolderCounter_Adaption();
+            Assert.AreEqual(1235, number);
         }
 
         // Copied from Umbraco.Core.Media.MediaSubfolderCounter

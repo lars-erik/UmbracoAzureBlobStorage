@@ -20,19 +20,6 @@ namespace idseefeld.de.UmbracoAzure.Tests
         }
 
         [Test]
-        public void Full_Url_Has_Relative_Path_Equal_To_Full_Url()
-        {
-            //const string expectedPath = "1000/";
-            var fullPath = GetUrl("1000");
-
-            CreateDirectory("1000");
-
-            var actualPath = Sut.GetRelativePath(fullPath);
-
-            Assert.That(actualPath, Is.EqualTo(fullPath));
-        }
-
-        [Test]
         public void Has_Full_Path_Equal_To_Full_Url()
         {
             var fullPath = GetUrl("1000");

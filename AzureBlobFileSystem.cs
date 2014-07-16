@@ -148,15 +148,11 @@ namespace idseefeld.de.UmbracoAzure {
 
 		public string GetRelativePath(string fullPathOrUrl)
 		{
-			var relativePath = fullPathOrUrl;
-			if (!fullPathOrUrl.StartsWith("http"))
-			{
-				fullPathOrUrl
-				 .TrimStart(_rootUrl)
-				 .Replace('/', Path.DirectorySeparatorChar)
-				 .TrimStart(Path.DirectorySeparatorChar);
-			}
-			return relativePath;
+            return fullPathOrUrl
+			    .TrimStart(_rootUrl)
+			    .TrimStart(Path.DirectorySeparatorChar)
+                .TrimEnd('/', '\\')
+                ;
 		}
 
 		public string GetUrl(string path)
@@ -276,8 +272,10 @@ namespace idseefeld.de.UmbracoAzure {
 
 		private IEnumerable<string> GetDirectoriesFromBlob(string path)
 		{
+		    if (!path.EndsWith("/") && path.Length > 0)
+		        path += "/";
             var blobs = mediaContainer.ListBlobs(path);
-            return blobs.Where(i => i is CloudBlobDirectory).Select(cd => cd.Uri.ToString());
+            return blobs.Where(i => i is CloudBlobDirectory).Select(cd => GetRelativePath(cd.Uri.ToString()));
 
             //see: https://github.com/idseefeld/UmbracoAzureBlobStorage/issues/1 by stefana99
             //var blobs = mediaContainer.ListBlobs(path);
