@@ -139,7 +139,10 @@ namespace idseefeld.de.UmbracoAzure {
             return fullPathOrUrl.TrimEnd("/");
 		}
 
-		public string GetUrl(string path)
+        // TODO: Extract superclass and abstract GetUrl. 
+        // Virtual allows for mapping to handler instead of direct access to storage.
+        // Should be abstract to prevent breaking the LSP.
+		public virtual string GetUrl(string path)
 		{
 			string rVal = path;
 			if (!path.StartsWith("http"))

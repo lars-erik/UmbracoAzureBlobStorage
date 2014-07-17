@@ -16,7 +16,7 @@ namespace idseefeld.de.UmbracoAzure.Tests
         protected AzureBlobFileSystem Sut;
         protected const string ContainerName = "media";
         protected const string BlobUrl = "http://127.0.0.1:10000/" + AccountName + "/";
-        private const string AccountName = "devstoreaccount1";
+        protected const string AccountName = "devstoreaccount1";
         private const string AccountKey = "Eby8vdM02xNOcqFlqUwJPLlmEtlCDXJ1OUzFT50uSRZ6IFsuFq2UVErCz4I6tq/K1SZFPTOtr/KBHBeksoGMGw==";
         protected const string TestContent = "Test";
 
@@ -35,7 +35,7 @@ namespace idseefeld.de.UmbracoAzure.Tests
         {
         }
 
-        private void CreateAccount()
+        protected void CreateAccount()
         {
             Account = new CloudStorageAccount(
                 new StorageCredentials(AccountName, AccountKey),
