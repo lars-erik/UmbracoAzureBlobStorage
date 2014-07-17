@@ -265,6 +265,7 @@ namespace idseefeld.de.UmbracoAzure {
 			}
 			return blockBlob;
 		}
+
 		private CloudBlobContainer GetContainer(string containerName)
 		{
 			return cloudBlobClient.GetContainerReference(containerName);

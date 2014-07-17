@@ -36,6 +36,7 @@
   </PropertyGroup>
   <ItemGroup>
     <None Include="FileSystemProviders.config" />
+    <None Include="idseefeld.deUmbracoAzure.nuspec" />
     <None Include="packages.config">
       <SubType>Designer</SubType>
     </None>
