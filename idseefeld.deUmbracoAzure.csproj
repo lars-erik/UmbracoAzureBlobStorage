@@ -35,7 +35,7 @@
     <StartupObject />
   </PropertyGroup>
   <ItemGroup>
-    <None Include="FileSystemProviders.config" />
+    <Content Include="config\FileSystemProviders-sample.config" />
     <None Include="idseefeld.deUmbracoAzure.nuspec" />
     <None Include="packages.config">
       <SubType>Designer</SubType>
@@ -88,7 +88,9 @@
       <HintPath>externals\6.1.6\Umbraco.Core.dll</HintPath>
     </Reference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <None Include="package.xml" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>

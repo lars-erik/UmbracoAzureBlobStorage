@@ -1,0 +1,104 @@
+﻿<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<umbPackage>
+  <files>
+    <file>
+      <guid>Microsoft.Data.Edm.dll</guid>
+      <orgPath>/bin</orgPath>
+      <orgName>Microsoft.Data.Edm.dll</orgName>
+    </file>
+    <file>
+      <guid>Microsoft.Data.Edm.xml</guid>
+      <orgPath>/bin</orgPath>
+      <orgName>Microsoft.Data.Edm.xml</orgName>
+    </file>
+    <file>
+      <guid>Microsoft.Data.OData.dll</guid>
+      <orgPath>/bin</orgPath>
+      <orgName>Microsoft.Data.OData.dll</orgName>
+    </file>
+    <file>
+      <guid>Microsoft.Data.OData.xml</guid>
+      <orgPath>/bin</orgPath>
+      <orgName>Microsoft.Data.OData.xml</orgName>
+    </file>
+    <file>
+      <guid>Microsoft.Data.Services.Client.dll</guid>
+      <orgPath>/bin</orgPath>
+      <orgName>Microsoft.Data.Services.Client.dll</orgName>
+    </file>
+    <file>
+      <guid>Microsoft.Data.Services.Client.xml</guid>
+      <orgPath>/bin</orgPath>
+      <orgName>Microsoft.Data.Services.Client.xml</orgName>
+    </file>
+    <file>
+      <guid>Microsoft.WindowsAzure.Configuration.dll</guid>
+      <orgPath>/bin</orgPath>
+      <orgName>Microsoft.WindowsAzure.Configuration.dll</orgName>
+    </file>
+    <file>
+      <guid>Microsoft.WindowsAzure.Storage.dll</guid>
+      <orgPath>/bin</orgPath>
+      <orgName>Microsoft.WindowsAzure.Storage.dll</orgName>
+    </file>
+    <file>
+      <guid>Microsoft.WindowsAzure.Storage.xml</guid>
+      <orgPath>/bin</orgPath>
+      <orgName>Microsoft.WindowsAzure.Storage.xml</orgName>
+    </file>
+    <file>
+      <guid>System.Spatial.dll</guid>
+      <orgPath>/bin</orgPath>
+      <orgName>System.Spatial.dll</orgName>
+    </file>
+    <file>
+      <guid>System.Spatial.xml</guid>
+      <orgPath>/bin</orgPath>
+      <orgName>System.Spatial.xml</orgName>
+    </file>
+    <file>
+      <guid>idseefeld.de.UmbracoAzure.dll</guid>
+      <orgPath>/bin</orgPath>
+      <orgName>idseefeld.de.UmbracoAzure.dll</orgName>
+    </file>
+    <file>
+      <guid>FileSystemProviders-sample.config</guid>
+      <orgPath>/Config</orgPath>
+      <orgName>FileSystemProviders-sample.config</orgName>
+    </file>
+  </files>
+  <info>
+    <package>
+      <name>AzureStorage</name>
+      <version>1.1.0</version>
+      <license url="http://www.opensource.org/licenses/mit-license.php">MIT license</license>
+      <url>http://our.umbraco.org/projects/backoffice-extensions/azure-blob-storage-provider</url>
+      <requirements>
+        <major>6</major>
+        <minor>0</minor>
+        <patch>0</patch>
+      </requirements>
+    </package>
+    <author>
+      <name>Dirk Seefeld, Lars-Erik Aabech</name>
+      <website>http://www.idseefeld.de</website>
+    </author>
+    <readme>
+      <![CDATA[Store media files in Azure Storage
+
+You have to configure the file system provider for your Azure Storage Account in umbraco /config in file FileSystemProviders.config.
+
+This package installs a sample config file: ~/Config/FileSystemProviders-sample.config 
+
+For more details read the documentation on http://our.umbraco.org/projects/backoffice-extensions/azure-blob-storage-provider.
+]]>
+    </readme>
+  </info>
+  <DocumentTypes />
+  <Templates />
+  <Stylesheets />
+  <Macros />
+  <DictionaryItems />
+  <Languages />
+  <DataTypes />
+</umbPackage>
