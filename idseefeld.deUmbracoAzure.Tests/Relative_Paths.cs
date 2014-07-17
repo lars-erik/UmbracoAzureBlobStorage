@@ -50,5 +50,16 @@ namespace idseefeld.de.UmbracoAzure.Tests
             var actualRelative = Sut.GetRelativePath(expectedRelativePath + "/");
             Assert.That(actualRelative, Is.EqualTo(expectedRelativePath));
         }
+
+        [Test]
+        public void From_Full_Url_With_Secure_Scheme()
+        {
+            const string expectedRelativePath = "1000/test.dat";
+            Sut.AddFile(expectedRelativePath, CreateTestStream());
+            var fullUrl = Sut.GetFullPath(expectedRelativePath);
+            var httpsUrl = "https" + fullUrl.Substring(4);
+            var relative = Sut.GetRelativePath(httpsUrl);
+            Assert.That(relative, Is.EqualTo(expectedRelativePath));
+        }
     }
 }

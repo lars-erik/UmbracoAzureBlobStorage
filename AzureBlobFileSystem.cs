@@ -14,26 +14,24 @@ using Umbraco.Core.IO;
 
 namespace idseefeld.de.UmbracoAzure {
 	public class AzureBlobFileSystem : IFileSystem {
-		private string _rootPath;
-		private string _rootUrl;
-		private CloudBlobClient cloudBlobClient;
-		private CloudStorageAccount cloudStorageAccount;
-		private CloudBlobContainer mediaContainer;
+	    private readonly CloudBlobClient cloudBlobClient;
+	    private readonly CloudBlobContainer mediaContainer;
 	    private readonly Dictionary<string, CloudBlockBlob> cachedBlobs = new Dictionary<string, CloudBlockBlob>();
 	    private readonly ILogger logger;
+        private readonly string containerUrl;
+	    private readonly Uri containerUri;
 
 		public AzureBlobFileSystem(
 			string containerName,
 			string rootUrl,
 			string connectionString)
+        : this(
+            new LogAdapter(), 
+            CloudStorageAccount.Parse(connectionString),
+            containerName,
+            rootUrl
+        )
 		{
-			cloudStorageAccount = CloudStorageAccount.Parse(connectionString);
-			cloudBlobClient = cloudStorageAccount.CreateCloudBlobClient();
-			mediaContainer = CreateContainer(containerName, BlobContainerPublicAccessType.Blob);
-			RootUrl = rootUrl + containerName + "/";
-			RootPath = "/";
-            
-            logger = new LogAdapter();
 		}
 
 	    internal AzureBlobFileSystem(
@@ -42,28 +40,15 @@ namespace idseefeld.de.UmbracoAzure {
 			string containerName,
 			string rootUrl)
 	    {
-            cloudStorageAccount = account;
-			cloudBlobClient = cloudStorageAccount.CreateCloudBlobClient();
+	        cloudBlobClient = account.CreateCloudBlobClient();
 			mediaContainer = CreateContainer(containerName, BlobContainerPublicAccessType.Blob);
-			RootUrl = rootUrl + containerName + "/";
-			RootPath = "/";
+			containerUrl = rootUrl + containerName + "/";
+            containerUri = new Uri(containerUrl);
         
             this.logger = logger;
         }
 
-		private string RootPath
-		{
-			get { return _rootPath; }
-			set { _rootPath = value; }
-		}
-
-		private string RootUrl
-		{
-			get { return _rootUrl; }
-			set { _rootUrl = value; }
-		}
-
-		public void AddFile(string path, Stream stream, bool overrideIfExists)
+	    public void AddFile(string path, Stream stream, bool overrideIfExists)
 		{
 			var fileExists = FileExists(path);
 			if (fileExists && !overrideIfExists)
@@ -75,9 +60,9 @@ namespace idseefeld.de.UmbracoAzure {
 
 		public void AddFile(string path, Stream stream)
 		{
-			if (!path.StartsWith(RootUrl))
+			if (!path.StartsWith(containerUrl))
 			{
-				path = RootUrl + path.Replace('\\', '/');
+				path = containerUrl + path.Replace('\\', '/');
 			}
 			UploadFileToBlob(path, stream);
 		}
@@ -135,8 +120,8 @@ namespace idseefeld.de.UmbracoAzure {
 
 		public string GetFullPath(string path)
 		{
-			string rVal = !path.StartsWith(RootUrl)
-				 ? Path.Combine(RootUrl, path)
+			string rVal = !path.StartsWith(containerUrl)
+				 ? Path.Combine(containerUrl, path)
 				 : path;
 			return rVal;
 		}
@@ -148,11 +133,10 @@ namespace idseefeld.de.UmbracoAzure {
 
 		public string GetRelativePath(string fullPathOrUrl)
 		{
-            return fullPathOrUrl
-			    .TrimStart(_rootUrl)
-			    .TrimStart(Path.DirectorySeparatorChar)
-                .TrimEnd('/', '\\')
-                ;
+		    var uri = new Uri(fullPathOrUrl, UriKind.RelativeOrAbsolute);
+		    if (uri.IsAbsoluteUri)
+		        return uri.AbsolutePath.TrimStart(containerUri.AbsolutePath).TrimEnd("/");
+            return fullPathOrUrl.TrimEnd("/");
 		}
 
 		public string GetUrl(string path)
@@ -160,7 +144,7 @@ namespace idseefeld.de.UmbracoAzure {
 			string rVal = path;
 			if (!path.StartsWith("http"))
 			{
-				rVal = RootUrl.TrimEnd("/") + "/" + path
+				rVal = containerUrl.TrimEnd("/") + "/" + path
 					 .TrimStart(Path.DirectorySeparatorChar)
 					 .Replace(Path.DirectorySeparatorChar, '/')
 					 .TrimEnd("/");
@@ -306,7 +290,7 @@ namespace idseefeld.de.UmbracoAzure {
 		{
 			string rVal = path;
 			if (!path.StartsWith("http"))
-				rVal = RootUrl + path.Replace('\\', '/');
+				rVal = containerUrl + path.Replace('\\', '/');
 			return rVal;
 		}
 
